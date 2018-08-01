@@ -272,13 +272,16 @@ public class AVStreamingActivity extends StreamingBaseActivity implements
             mMediaStreamingManager.switchCamera(facingId);
 
 
-            mPGSkinUtils.pause();
-            mPGSkinUtils = new PGSkinUtils(getApplicationContext());
-            mIsFront = !mIsFront;
-            mPGSkinUtils.onSwitchCamera(new CameraInfo(960, 540, 0, 270, mIsFront));
-            mIsFirstFrame = true;
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            mIsSwitch = true;
+
         }
     }
+    private boolean mIsSwitch = false;
 
     private boolean mIsFront = true;
 
@@ -517,7 +520,7 @@ public class AVStreamingActivity extends StreamingBaseActivity implements
         previewMirrorBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveBitmapByData(mNewData, mWidth, mHeight);
+                mPGSkinUtils.setSticker(AppConfig.STICKER_LOCAL_PATH + "TestSticker/dog");
 //                if (isPictureStreaming()) {
 //                    return;
 //                }
@@ -531,13 +534,15 @@ public class AVStreamingActivity extends StreamingBaseActivity implements
         encodingMirrorBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isPictureStreaming()) {
-                    return;
-                }
-
-                mIsEncodingMirror = !mIsEncodingMirror;
-                mMediaStreamingManager.setEncodingMirror(mIsEncodingMirror);
-                Toast.makeText(AVStreamingActivity.this, "镜像成功", Toast.LENGTH_SHORT).show();
+                mPGSkinUtils.setUseBigEyeSlimFace(true);
+                mPGSkinUtils.SetFaceShapingParam(100, 100);
+//                if (isPictureStreaming()) {
+//                    return;
+//                }
+//
+//                mIsEncodingMirror = !mIsEncodingMirror;
+//                mMediaStreamingManager.setEncodingMirror(mIsEncodingMirror);
+//                Toast.makeText(AVStreamingActivity.this, "镜像成功", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -940,6 +945,14 @@ public class AVStreamingActivity extends StreamingBaseActivity implements
     @Override
     public int onDrawFrame(int texId, int texWidth, int texHeight, float[] transformMatrix) {
         lock.lock();
+        if (mIsSwitch) {
+            mIsSwitch = false;
+            mPGSkinUtils.pause();
+            mPGSkinUtils = new PGSkinUtils(getApplicationContext());
+            mIsFront = !mIsFront;
+            mPGSkinUtils.onSwitchCamera(new CameraInfo(960, 540, 0, mIsFront ? 270 : 90, mIsFront));
+            mIsFirstFrame = true;
+        }
         mPGSkinUtils.frameProcess(mBytes, texId, mIsFirstFrame, false);
         mIsFirstFrame = false;
         mNewData = mPGSkinUtils.getSkinSoftenByte();

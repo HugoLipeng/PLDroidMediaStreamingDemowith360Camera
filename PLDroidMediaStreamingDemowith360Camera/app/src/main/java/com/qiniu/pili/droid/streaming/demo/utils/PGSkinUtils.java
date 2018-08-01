@@ -58,9 +58,9 @@ public class PGSkinUtils {
         if (cameraInfo.isFront) {
             mPGSkinUtils.SetOrientForAdjustInput(PGSkinPrettifyEngine.PG_Orientation.PG_OrientationRightRotate90);
         } else {
-            mPGSkinUtils.SetOrientForAdjustInput(PGSkinPrettifyEngine.PG_Orientation.PG_OrientationRightRotate270Mirrored);
+            mPGSkinUtils.SetOrientForAdjustInput(PGSkinPrettifyEngine.PG_Orientation.PG_OrientationRightRotate270);
         }
-        mPGSkinUtils.SetSizeForAdjustInput(cameraInfo.previewHeight, cameraInfo.previewWidth);
+        mPGSkinUtils.SetSizeForAdjustInput(cameraInfo.previewWidth, cameraInfo.previewHeight);
     }
 
 
@@ -162,8 +162,6 @@ public class PGSkinUtils {
          *
          * 设置输出方向SetOutputOrientation
          * */
-        mPGSkinUtils.setUseBigEyeSlimFace(true);
-        mPGSkinUtils.SetFaceShapingParam(100, 100);
     }
 
     /**
@@ -329,6 +327,14 @@ public class PGSkinUtils {
 
     public boolean getOutputToBitmap(Bitmap pBitmap) {
         return mPGSkinUtils.GetOutputToBitmap(pBitmap);
+    }
+
+    public void setUseBigEyeSlimFace(boolean flag) {
+        mPGSkinUtils.setUseBigEyeSlimFace(flag);
+    }
+
+    public void SetFaceShapingParam(int a, int b) {
+        mPGSkinUtils.SetFaceShapingParam(a, b);
     }
 
 }

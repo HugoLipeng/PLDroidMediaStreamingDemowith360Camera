@@ -41,5 +41,5 @@ dependencies {
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
     compile 'com.google.code.gson:gson:2.8.0'
-    compile(name:'PgPrettifyEngine-release_1.9.8', ext:'aar');
+    compile(name:'PgPrettifyEngine-release_2.0.0.1', ext:'aar');
 }
